@@ -1,64 +1,64 @@
 <template>
-    <BaseCard>
-        <h2>Find Your Coach</h2>
-        <span class='filter-option'>
-            <input type="checkbox" id='frontend' checked @change='setFilters'>
-            <label for="frontend">Frontend</label>
-        </span>
-        <span class='filter-option'>
-            <input type="checkbox" id='backend' checked @change='setFilters'>
-            <label for="backend">Backend</label>
-        </span>
-        <span class='filter-option'>
-            <input type="checkbox" id='career' checked @change='setFilters'>
-            <label for="career">Career</label>
-        </span>
-    </BaseCard>
+  <BaseCard>
+    <h2>Find Your Coach</h2>
+    <span class="filter-option">
+      <input type="checkbox" id="frontend" checked @change="setFilters" />
+      <label for="frontend">Frontend</label>
+    </span>
+    <span class="filter-option">
+      <input type="checkbox" id="backend" checked @change="setFilters" />
+      <label for="backend">Backend</label>
+    </span>
+    <span class="filter-option">
+      <input type="checkbox" id="career" checked @change="setFilters" />
+      <label for="career">Career</label>
+    </span>
+  </BaseCard>
 </template>
 
 <script>
 export default {
-    emits: ['change-filters'],
-    data() {
-        return {
-            filters: {
-                frontend: true,
-                backend: true,
-                career: true
-            }
-        }
-    },
-    methods: {
-        setFilters(event) {
-            const inputId = event.target.id
-            const isChecked = event.target.checked
-            const updatedFilters = { ...this.filters, [inputId]: isChecked }
-            this.filters = updatedFilters
-            this.$emit('change-filters', updatedFilters)
-        }
+  emits: ['change-filters'],
+  data() {
+    return {
+      filters: {
+        frontend: true,
+        backend: true,
+        career: true
+      }
     }
+  },
+  methods: {
+    setFilters(event) {
+      const inputId = event.target.id
+      const isChecked = event.target.checked
+      const updatedFilters = { ...this.filters, [inputId]: isChecked }
+      this.filters = updatedFilters
+      this.$emit('change-filters', updatedFilters)
+    }
+  }
 }
 </script>
 
 <style scoped>
 h2 {
-    margin: 0.5rem 0;
+  margin: 0.5rem 0;
 }
 
 .filter-option {
-    margin-right: 1rem;
+  margin-right: 1rem;
 }
 
 .filter-option label,
 .filter-option input {
-    vertical-align: middle;
+  vertical-align: middle;
 }
 
 .filter-option label {
-    margin-left: 0.25rem;
+  margin-left: 0.25rem;
 }
 
 .filter-option.active label {
-    font-weight: bold;
+  font-weight: bold;
 }
 </style>

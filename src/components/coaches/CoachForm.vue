@@ -1,38 +1,42 @@
 <template>
-    <form @submit.prevent='submitForm'>
-        <div class="form-control">
+    <form @submit.prevent="submitForm">
+        <div class="form-control" :class="{ invalid: !firstName.isValid }">
             <label for="firstName">First Name</label>
-            <input type="text" id="firstName" v-model.trim='firstName'>
+            <input type="text" id="firstName" v-model.trim="firstName.val" @blur="validateForm" />
+            <p v-if="!firstName.isValid">First name must not be empty.</p>
         </div>
-        <div class="form-control">
+        <div class="form-control" :class="{ invalid: !lastName.isValid }">
             <label for="lastName">Last Name</label>
-            <input type="text" id="lastName" v-model.trim='lastName'>
+            <input type="text" id="lastName" v-model.trim="lastName.val" @blur="validateForm" />
+            <p v-if="!lastName.isValid">Last name must not be empty.</p>
         </div>
-        <div class="form-control">
+        <div class="form-control" :class="{ invalid: !description.isValid }">
             <label for="description">Description</label>
-            <textarea id="description" rows='5' v-model.trim='description'></textarea>
+            <textarea id="description" rows="5" v-model.trim="description.val" @blur="validateForm"></textarea>
+            <p v-if="!description.isValid">Description must not be empty.</p>
         </div>
-        <div class="form-control">
+        <div class="form-control" :class="{ invalid: !hourlyRate.isValid }">
             <label for="rate">Hourly Rate</label>
-            <input type="number" id="rate" v-model.number='rate'>
+            <input type="number" id="rate" v-model.number="hourlyRate.val" @blur="validateForm" />
+            <p v-if="!hourlyRate.isValid">Rate must be greater than 0.</p>
         </div>
-        <div class='form-control'>
+        <div class="form-control" :class="{ invalid: !areas.isValid }">
             <h3>Areas of Expertise</h3>
             <div>
-                <input type="checkbox" id='frontend' value='frontend' v-model='areas'>
+                <input type="checkbox" id="frontend" value="frontend" v-model="areas.val" @blur="validateForm" />
                 <label for="frontend">Frontend Development</label>
-
             </div>
             <div>
-                <input type="checkbox" id='backend' value='backend' v-model='areas'>
+                <input type="checkbox" id="backend" value="backend" v-model="areas.val" @blur="validateForm" />
                 <label for="backend">Backend Development</label>
-
             </div>
             <div>
-                <input type="checkbox" id='career' value='career' v-model='areas'>
+                <input type="checkbox" id="career" value="career" v-model="areas.val" @blur="validateForm" />
                 <label for="career">Career Advisory</label>
             </div>
+            <p v-if="!areas.isValid">At least one expertise must be selected.</p>
         </div>
+        <p v-if="!formIsValid">Please fix the above errors and submit again</p>
         <BaseButton>Register</BaseButton>
     </form>
 </template>
@@ -42,21 +46,80 @@ export default {
     emits: ['save-data'],
     data() {
         return {
-            firstName: '',
-            lastName: '',
-            description: '',
-            rate: null,
-            areas: []
+            firstName: {
+                val: '',
+                isValid: true
+            },
+            lastName: {
+                val: '',
+                isValid: true
+            },
+            description: {
+                val: '',
+                isValid: true
+            },
+            hourlyRate: {
+                val: null,
+                isValid: true
+            },
+            areas: {
+                val: [],
+                isValid: true
+            },
+            formIsValid: true
         }
     },
     methods: {
+        validateForm() {
+            this.formIsValid = true
+            const data = this.$data
+            // Loop to go thru each property inside our data()
+            // and validate each of them individually
+            for (const key of Object.keys(data)) {
+                if (typeof this[key].val == 'string') {
+                    if (this[key].val === '') {
+                        this[key].isValid = false
+                        this.formIsValid = false
+                    } else {
+                        this[key].isValid = true
+                    }
+                } else if (typeof this[key].val == 'number') {
+                    if (this[key].val < 0 || !this[key].val) {
+                        this[key].isValid = false
+                        this.formIsValid = false
+                    } else {
+                        this[key].isValid = true
+                    }
+                } else if (Array.isArray(this[key].val)) {
+                    if (this[key].val.length === 0) {
+                        this[key].isValid = false
+                        this.formIsValid = false
+                    } else {
+                        this[key].isValid = true
+                    }
+                } else if (typeof this[key] == 'boolean') {
+                    continue
+                } else {
+                    this[key].isValid = false
+                    this.formIsValid = false
+                }
+            }
+        },
         submitForm() {
-            const formData = {
-                firstName: this.firstName,
-                lastName: this.lastName,
-                description: this.description,
-                hourlyRate: this.rate,
-                areas: this.areas
+            this.validateForm()
+            if (!this.formIsValid) {
+                return
+            }
+            const formData = {}
+            // Loop to save each property's value that is inside our data()
+            // in a new object named formData, used to create a new coach
+            // example: instead of firstName: {val: '', isValid: true } we need firstName: ''
+            for (const key of Object.keys(this.$data)) {
+                if (typeof this[key] == 'boolean') {
+                    continue
+                } else {
+                    formData[key] = this[key].val
+                }
             }
             this.$emit('save-data', formData)
         }

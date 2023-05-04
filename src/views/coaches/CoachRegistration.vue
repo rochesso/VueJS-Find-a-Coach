@@ -2,13 +2,13 @@
   <section>
     <BaseCard>
       <h2>Register as a coach now!</h2>
-      <CoachForm @save-data='saveData'></CoachForm>
+      <CoachForm @save-data="saveData"></CoachForm>
     </BaseCard>
   </section>
 </template>
 
 <script>
-import CoachForm from '../../components/coaches/CoachForm.vue';
+import CoachForm from '../../components/coaches/CoachForm.vue'
 
 export default {
   components: {

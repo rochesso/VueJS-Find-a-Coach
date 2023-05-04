@@ -6,8 +6,12 @@
       <BaseBadge v-for="area in coach.areas" :key="area" :title="area" :type="area"></BaseBadge>
     </div>
     <div class="actions">
-      <BaseButton mode="outline" link :to="{ name: 'contact', params: { coachId: coach.id } }">Contact</BaseButton>
-      <BaseButton link :to="{ name: 'coachDetail', params: { coachId: coach.id } }">View Details</BaseButton>
+      <BaseButton mode="outline" link :to="{ name: 'contact', params: { coachId: coach.id } }"
+        >Contact</BaseButton
+      >
+      <BaseButton link :to="{ name: 'coachDetail', params: { coachId: coach.id } }"
+        >View Details</BaseButton
+      >
     </div>
   </li>
 </template>
