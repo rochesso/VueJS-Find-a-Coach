@@ -3,16 +3,18 @@ const api = import.meta.env.VITE_API
 export default {
   async registerCoach(context, payload) {
     const userId = context.rootGetters.userId
+    const token = context.rootGetters.token
     const coachData = payload
-    const response = await fetch(`${api}/coaches/${userId}.json`, {
+    const response = await fetch(`${api}/coaches/${userId}.json?auth=${token}`, {
       method: 'PUT',
       body: JSON.stringify(coachData)
     })
 
-    // const responseData = await response.json()
+    const responseData = await response.json()
 
     if (!response.ok) {
-      // error ...
+      const error = new Error(responseData.error || 'Failed to register!')
+      throw error
     }
 
     context.commit('registerCoach', { ...coachData, id: userId })
@@ -31,7 +33,7 @@ export default {
     const responseData = await response.json()
 
     if (!response.ok) {
-      const error = new Error(responseData.message || 'Failed to fetch!')
+      const error = new Error(responseData.error || 'Failed to fetch!')
       throw error
     }
 

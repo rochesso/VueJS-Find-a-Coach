@@ -15,7 +15,10 @@ export default {
   components: {
     TheHeader,
     RouterView
-  }
+  },
+  created() {
+    this.$store.dispatch('tryLogin')
+  },
 }
 </script>
 

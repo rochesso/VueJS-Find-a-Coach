@@ -9,18 +9,19 @@ export default {
     })
     const responseData = await response.json()
     if (!response.ok) {
-      const error = new Error(responseData.message || 'Failed to send request.')
+      const error = new Error(responseData.error || 'Failed to send request.')
       throw error
     }
-    newRequest.id = responseData.name
-    context.commit('addRequest', newRequest)
+    // newRequest.id = responseData.name
+    // context.commit('addRequest', newRequest)
   },
   async fetchRequests(context) {
     const coachId = context.rootGetters.userId
-    const response = await fetch(`${api}/requests/${coachId}.json`, {})
+    const token = context.rootGetters.token
+    const response = await fetch(`${api}/requests/${coachId}.json?auth=${token}`, {})
     const responseData = await response.json()
     if (!response.ok) {
-      const error = new Error(responseData.message || 'Failed to fetch requests.')
+      const error = new Error(responseData.error || 'Failed to fetch requests.')
       throw error
     }
     const requests = []
