@@ -17,7 +17,13 @@ export default {
 
     context.commit('registerCoach', { ...coachData, id: userId })
   },
-  async loadCoaches(context) {
+  async loadCoaches(context, payload) {
+    context.commit('setCurrentTime')
+
+    if (!payload.forceRefresh && !context.getters.shouldUpdate) {
+      return
+    }
+
     const response = await fetch(`${api}/coaches.json`, {
       method: 'GET'
     })
@@ -35,5 +41,6 @@ export default {
       coaches.push(coach)
     }
     context.commit('setCoaches', coaches)
+    context.commit('setLastFetch')
   }
 }

@@ -1,16 +1,14 @@
 <template>
-  <form @submit.prevent='submitForm'>
-    <div class="form-control" :class='{ invalid: !email.isValid }'>
+  <form @submit.prevent="submitForm">
+    <div class="form-control" :class="{ invalid: !email.isValid }">
       <label for="email">Your E-Mail</label>
-      <input type="email" id='email' v-model.trim='email.val' @blur='validateForm' />
+      <input type="email" id="email" v-model.trim="email.val" @blur="validateForm" />
       <p v-if="!email.isValid">E-Mail must be valid and not be empty.</p>
-
     </div>
-    <div class="form-control" :class='{ invalid: !message.isValid }'>
+    <div class="form-control" :class="{ invalid: !message.isValid }">
       <label for="message">Message</label>
-      <textarea rows='5' id='message' v-model.trim='message.val' @blur='validateForm'></textarea>
+      <textarea rows="5" id="message" v-model.trim="message.val" @blur="validateForm"></textarea>
       <p v-if="!message.isValid">Message must not be empty.</p>
-
     </div>
     <div class="actions">
       <BaseButton>Send Message</BaseButton>
@@ -61,9 +59,10 @@ export default {
       if (!this.formIsValid) {
         return
       }
+
+      // Using the coach id stored in our route as :coachId
+      // We need to know for which coach is the request
       const newRequest = {
-        // Using the coach id stored in our route as :coachId
-        // We need to know for which coach is the request
         coachId: this.$route.params.coachId
       }
       // Loop to save each property's value that is inside our data()

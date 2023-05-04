@@ -6,6 +6,8 @@ export default {
   namespaced: true,
   state() {
     return {
+      lastFetch: null,
+      currentTime: null,
       coaches: [
         {
           id: 'c1',
