@@ -2,12 +2,24 @@
   <form @submit.prevent="submitForm">
     <div class="form-control" :class="{ invalid: !firstName.isValid }">
       <label for="firstName">First Name</label>
-      <input type="text" id="firstName" v-model.trim="firstName.val" @blur="validateForm" />
+      <input
+        type="text"
+        id="firstName"
+        v-model.trim="firstName.val"
+        @blur="validateForm"
+        @input="setIsChanged"
+      />
       <p v-if="!firstName.isValid">First name must not be empty.</p>
     </div>
     <div class="form-control" :class="{ invalid: !lastName.isValid }">
       <label for="lastName">Last Name</label>
-      <input type="text" id="lastName" v-model.trim="lastName.val" @blur="validateForm" />
+      <input
+        type="text"
+        id="lastName"
+        v-model.trim="lastName.val"
+        @blur="validateForm"
+        @input="setIsChanged"
+      />
       <p v-if="!lastName.isValid">Last name must not be empty.</p>
     </div>
     <div class="form-control" :class="{ invalid: !description.isValid }">
@@ -17,12 +29,19 @@
         rows="5"
         v-model.trim="description.val"
         @blur="validateForm"
+        @input="setIsChanged"
       ></textarea>
       <p v-if="!description.isValid">Description must not be empty.</p>
     </div>
     <div class="form-control" :class="{ invalid: !hourlyRate.isValid }">
-      <label for="rate">Hourly Rate</label>
-      <input type="number" id="rate" v-model.number="hourlyRate.val" @blur="validateForm" />
+      <label for="hourlyRate">Hourly Rate</label>
+      <input
+        type="number"
+        id="hourlyRate"
+        v-model.number="hourlyRate.val"
+        @blur="validateForm"
+        @input="setIsChanged"
+      />
       <p v-if="!hourlyRate.isValid">Rate must be greater than 0.</p>
     </div>
     <div class="form-control" :class="{ invalid: !areas.isValid }">
@@ -34,6 +53,7 @@
           value="frontend"
           v-model="areas.val"
           @blur="validateForm"
+          @input="setIsChanged"
         />
         <label for="frontend">Frontend Development</label>
       </div>
@@ -44,6 +64,7 @@
           value="backend"
           v-model="areas.val"
           @blur="validateForm"
+          @input="setIsChanged"
         />
         <label for="backend">Backend Development</label>
       </div>
@@ -54,6 +75,7 @@
           value="career"
           v-model="areas.val"
           @blur="validateForm"
+          @input="setIsChanged"
         />
         <label for="career">Career Advisory</label>
       </div>
@@ -71,35 +93,50 @@ export default {
     return {
       firstName: {
         val: '',
-        isValid: true
+        isValid: true,
+        isChanged: false
       },
       lastName: {
         val: '',
-        isValid: true
+        isValid: true,
+        isChanged: false
       },
       description: {
         val: '',
-        isValid: true
+        isValid: true,
+        isChanged: false
       },
       hourlyRate: {
         val: null,
-        isValid: true
+        isValid: true,
+        isChanged: false
       },
       areas: {
         val: [],
-        isValid: true
+        isValid: true,
+        isChanged: false
       },
       formIsValid: true
     }
   },
   methods: {
+    setIsChanged(event) {
+      const key = event.target.id
+      if (event.target.type === 'checkbox') {
+        this.areas.isChanged = true
+      } else {
+        this[key].isChanged = true
+      }
+    },
     validateForm() {
       this.formIsValid = true
       const data = this.$data
       // Loop to go thru each property inside our data()
       // and validate each of them individually
       for (const key of Object.keys(data)) {
-        if (typeof this[key].val == 'string') {
+        if (!this[key].isChanged) {
+          continue
+        } else if (typeof this[key].val == 'string') {
           if (this[key].val === '') {
             this[key].isValid = false
             this.formIsValid = false

@@ -2,12 +2,24 @@
   <form @submit.prevent="submitForm">
     <div class="form-control" :class="{ invalid: !email.isValid }">
       <label for="email">Your E-Mail</label>
-      <input type="email" id="email" v-model.trim="email.val" @blur="validateForm" />
+      <input
+        type="email"
+        id="email"
+        v-model.trim="email.val"
+        @blur="validateForm"
+        @input="setIsChanged"
+      />
       <p v-if="!email.isValid">E-Mail must be valid and not be empty.</p>
     </div>
     <div class="form-control" :class="{ invalid: !message.isValid }">
       <label for="message">Message</label>
-      <textarea rows="5" id="message" v-model.trim="message.val" @blur="validateForm"></textarea>
+      <textarea
+        rows="5"
+        id="message"
+        v-model.trim="message.val"
+        @blur="validateForm"
+        @input="setIsChanged"
+      ></textarea>
       <p v-if="!message.isValid">Message must not be empty.</p>
     </div>
     <div class="actions">
@@ -23,23 +35,31 @@ export default {
     return {
       email: {
         val: '',
-        isValid: true
+        isValid: true,
+        isChanged: false
       },
       message: {
         val: '',
-        isValid: true
+        isValid: true,
+        isChanged: false
       },
       formIsValid: true
     }
   },
   methods: {
+    setIsChanged(event) {
+      const key = event.target.id
+      this[key].isChanged = true
+    },
     validateForm() {
       this.formIsValid = true
       const data = this.$data
       // Loop to go thru each property inside our data()
       // and validate each of them individually
       for (const key of Object.keys(data)) {
-        if (typeof this[key].val == 'string') {
+        if (!this[key].isChanged) {
+          continue
+        } else if (typeof this[key].val == 'string') {
           if (this[key].val === '') {
             this[key].isValid = false
             this.formIsValid = false

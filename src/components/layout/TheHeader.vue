@@ -8,13 +8,34 @@
         <li>
           <RouterLink :to="{ name: 'coaches' }">All Coaches</RouterLink>
         </li>
-        <li>
+        <li v-if="isLoggedIn">
           <RouterLink :to="{ name: 'requests' }">Requests</RouterLink>
+        </li>
+        <li v-else>
+          <RouterLink :to='{ name: "auth" }'>Login</RouterLink>
+        </li>
+        <li v-if='isLoggedIn'>
+          <BaseButton @click='logout'>Logout</BaseButton>
         </li>
       </ul>
     </nav>
   </header>
 </template>
+
+<script>
+export default {
+  computed: {
+    isLoggedIn() {
+      return this.$store.getters.isAuthenticated
+    }
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch('logout')
+    }
+  },
+}
+</script>
 
 <style scoped>
 header {

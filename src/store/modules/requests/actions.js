@@ -12,8 +12,6 @@ export default {
       const error = new Error(responseData.error || 'Failed to send request.')
       throw error
     }
-    // newRequest.id = responseData.name
-    // context.commit('addRequest', newRequest)
   },
   async fetchRequests(context) {
     const coachId = context.rootGetters.userId

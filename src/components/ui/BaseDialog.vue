@@ -1,9 +1,9 @@
 <template>
   <teleport to="body">
-    <Transition name='backdrop'>
+    <Transition name="backdrop">
       <div v-if="show" @click="tryClose" class="backdrop"></div>
     </Transition>
-    <Transition name='dialog'>
+    <Transition name="dialog">
       <dialog open v-if="show">
         <header>
           <slot name="header">
@@ -74,7 +74,6 @@ export default {
 
 .backdrop-leave-active {
   transition: all 0.2s ease-in;
-
 }
 
 .backdrop-enter-to,
@@ -109,7 +108,6 @@ dialog {
 
 .dialog-leave-active {
   transition: all 0.2s ease-in;
-
 }
 
 .dialog-enter-to,

@@ -21,28 +21,23 @@ export default {
   },
   async loadCoaches(context, payload) {
     context.commit('setCurrentTime')
-
     if (!payload.forceRefresh && !context.getters.shouldUpdate) {
       return
     }
-
+    context.commit('setLastFetch')
     const response = await fetch(`${api}/coaches.json`, {
       method: 'GET'
     })
-
     const responseData = await response.json()
-
     if (!response.ok) {
       const error = new Error(responseData.error || 'Failed to fetch!')
       throw error
     }
-
     const coaches = []
     for (const key in responseData) {
       const coach = { ...responseData[key], id: key }
       coaches.push(coach)
     }
     context.commit('setCoaches', coaches)
-    context.commit('setLastFetch')
   }
 }

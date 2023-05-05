@@ -1,8 +1,8 @@
 <template>
   <TheHeader />
-  <RouterView v-slot='slotProps'>
-    <Transition name='route' mode='out-in'>
-      <component :is='slotProps.Component'></component>
+  <RouterView v-slot="slotProps">
+    <Transition name="route" mode="out-in">
+      <component :is="slotProps.Component"></component>
     </Transition>
   </RouterView>
 </template>
@@ -18,7 +18,7 @@ export default {
   },
   created() {
     this.$store.dispatch('tryLogin')
-  },
+  }
 }
 </script>
 

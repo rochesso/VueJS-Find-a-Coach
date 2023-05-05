@@ -8,11 +8,15 @@
         <header>
           <h2>Requests Received</h2>
         </header>
-        <div v-if='isLoading'>
+        <div v-if="isLoading">
           <BaseSpinner></BaseSpinner>
         </div>
         <ul v-else-if="hasRequests && !isLoading">
-          <RequestItem v-for="request in receivedRequests" :key="request.id" :request="request"></RequestItem>
+          <RequestItem
+            v-for="request in receivedRequests"
+            :key="request.id"
+            :request="request"
+          ></RequestItem>
         </ul>
         <h3 v-else>You haven't received any requests yet!</h3>
       </BaseCard>
@@ -51,7 +55,6 @@ export default {
         this.error = error.message || 'Something went wrong!'
       }
       this.isLoading = false
-
     },
     handleError() {
       this.error = null
