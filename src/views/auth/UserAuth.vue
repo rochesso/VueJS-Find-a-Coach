@@ -15,7 +15,12 @@
       </div>
       <div class="form-control">
         <label for="password">Password</label>
-        <input type="password" id="password" autocomplete="current-password" v-model.trim="password" />
+        <input
+          type="password"
+          id="password"
+          autocomplete="current-password"
+          v-model.trim="password"
+        />
       </div>
       <p v-if="!formIsValid">
         Please enter a valid email and password (must be at least 6 characters long).
@@ -79,7 +84,6 @@ export default {
       this.isLoading = false
       const redirectUrl = this.$route.query.redirect || 'coaches'
       this.$router.replace({ name: redirectUrl })
-
     },
     switchAuthMode() {
       if (this.mode === 'login') {

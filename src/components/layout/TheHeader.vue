@@ -12,10 +12,10 @@
           <RouterLink :to="{ name: 'requests' }">Requests</RouterLink>
         </li>
         <li v-else>
-          <RouterLink :to='{ name: "auth" }'>Login</RouterLink>
+          <RouterLink :to="{ name: 'auth' }">Login</RouterLink>
         </li>
-        <li v-if='isLoggedIn'>
-          <BaseButton @click='logout'>Logout</BaseButton>
+        <li v-if="isLoggedIn">
+          <BaseButton @click="logout">Logout</BaseButton>
         </li>
       </ul>
     </nav>
@@ -33,7 +33,7 @@ export default {
     logout() {
       this.$store.dispatch('logout')
     }
-  },
+  }
 }
 </script>
 
