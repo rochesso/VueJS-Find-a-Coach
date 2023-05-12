@@ -2,6 +2,8 @@
 
 "Find a Coach" is a project that I developed in conjunction with an advanced Vue.js course. This application offers a robust set of features that enable users to create an account, log in, and register as a coach. Registered coaches can receive requests from users seeking their services, which are viewable when logged in.
 
+### [Certificate](https://www.udemy.com/certificate/UC-9601468e-cbce-4dae-a27f-3f8be90af17e/)
+
 ### [Credits](https://www.udemy.com/course/vuejs-2-the-complete-guide/)
 
 # VueJS
